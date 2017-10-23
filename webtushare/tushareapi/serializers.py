@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from tushareapi.models import StockBasic
+from tushareapi.models import StockBasic, ReportData, OperationData, ProfitData
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -21,3 +21,21 @@ class StockBasicSerializer(serializers.ModelSerializer):
                   'totalAssets', 'liquidAssets', 'fixedAssets', 'reserved', 'reservedPerShare', \
                   'esp', 'bvps', 'pb', 'timeToMarket', 'undp', 'perundp', 'rev', 'profit', \
                   'gpr', 'npr', 'holders')
+
+class ReportDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ReportData
+        fields = ('code', 'name', 'eps', 'eps_yoy', 'bvps', 'roe', 'epcf', \
+                  'net_profits', 'profits_yoy', 'distrib', 'report_date')
+
+class OperationDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = OperationData
+        fields = ('code', 'name', 'arturnover', 'arturndays', 'inventory_turnover', \
+                 'inventory_days', 'currentasset_turnover', 'currentasset_days')
+
+class ProfitDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProfitData
+        fields = ('code', 'name', 'roe', 'net_profit_ratio', 'gross_profit_rate', \
+                 'net_profits', 'eps', 'bips')
