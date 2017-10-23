@@ -6,7 +6,7 @@ djangorestframework 请访问 http://www.django-rest-framework.org
 ## 股票列表
 ### 公司基本情况
 GET http://localhost:8000/tushareapi/stockbasic/
-###股票代码 600353 的公司基本情况
+### 股票代码 600353 的公司基本情况
 GET http://localhost:8000/tushareapi/stockbasic/600353
 
 ## 业绩报告
