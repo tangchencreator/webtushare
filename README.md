@@ -16,7 +16,7 @@ GET http://localhost:8000/tushareapi/reportdata/2014/3/
 GET http://localhost:8000/tushareapi/reportdata/2014/3/001979
 
 ## 盈利能力
-## 获取2014年第3季度的盈利能力数据
+### 获取2014年第3季度的盈利能力数据
 GET http://localhost:8000/tushareapi/profitdata/2014/3/
 ### 股票代码 001979 2014年第3季度的盈利能力数据
 GET http://localhost:8000/tushareapi/profitdata/2014/3/001896
