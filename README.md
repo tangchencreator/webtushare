@@ -1,7 +1,7 @@
 基于 tushare，djangorestframework制作的财经数据网页端应用
 tushare 请访问 http://tushare.org
 djangorestframework 请访问 http://www.django-rest-framework.org
-#基本面数据#
+#基本面数据
 ##股票列表
 ###公司基本情况
 GET http://localhost:8000/tushareapi/stockbasic/ 
