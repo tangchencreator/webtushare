@@ -4,3 +4,4 @@ pandas
 lxml
 request
 bs4
+tushare
