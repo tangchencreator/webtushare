@@ -145,3 +145,21 @@ class GrowthData(models.Model):
     targ = models.FloatField("总资产增长率")
     epsg = models.FloatField("每股收益增长率")
     seg = models.FloatField("股东权益增长率")
+
+class RealTimeBoxOffice(models.Model):
+    '''
+    BoxOffice 实时票房（万）
+    Irank 排名
+    MovieName 影片名
+    boxPer 票房占比 （%）
+    movieDay 上映天数
+    sumBoxOffice 累计票房（万）
+    time 数据获取时间
+    '''
+    box_office = models.FloatField("实时票房（万）")
+    irank = models.IntegerField("排名")
+    movie_name = models.CharField("影片名", max_length=300)
+    box_per = models.FloatField("票房占比 （%）")
+    movie_day = models.FloatField("上映天数")
+    sum_box_office = models.FloatField("累计票房（万）")
+    time = models.CharField("发布日期", max_length=20, null=True)

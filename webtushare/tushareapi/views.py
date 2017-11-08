@@ -4,11 +4,11 @@ from django.shortcuts import render
 # Create your views here.
 from django.contrib.auth.models import User, Group
 from tushareapi.models import StockBasic, ReportData, OperationData, \
-                              ProfitData
+                              ProfitData, RealTimeBoxOffice
 from rest_framework import viewsets
 from tushareapi.serializers import UserSerializer, GroupSerializer, \
                                    StockBasicSerializer, ReportDataSerializer, \
-                                   OperationDataSerializer, ProfitDataSerializer
+                                   OperationDataSerializer, ProfitDataSerializer, RealTimeBoxOfficeSerializer
                                    
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
@@ -266,6 +266,34 @@ def profitdata_detail(request, year, quater, code):
 
         serializer = ProfitDataSerializer(details[0])
         return JsonResponse(serializer.data)
+
+@csrf_exempt
+def realtimeboxoffice_list(request):
+    """
+    实时票房数据
+    """
+    details = RealTimeBoxOffice.objects.all()
+    if not details :
+        details = ts.realtime_boxoffice()
+        total = len(details)
+        percent = 0.0
+        profit = None
+        
+        for i in range(0, total):
+            percent = percent + 1
+            detail = details.ix[i]
+            RealTimeBoxOffice.objects.create(box_office=detail.BoxOffice, \
+                                            irank=detail.Irank, \
+                                            movie_name=detail.MovieName, \
+                                            box_per=detail.boxPer, \
+                                            movie_day=detail.movieDay, \
+                                            sum_box_office=detail.sumBoxOffice, \
+                                            time=detail.time)
+                    
+            processbar(percent, total)
+    details = RealTimeBoxOffice.objects.all()
+    serializer = RealTimeBoxOfficeSerializer(details , many=True)
+    return JsonResponse(serializer.data, safe=False)
 
 def processbar(percent, total):
     hashes = '#' * int(percent/total * 50.0)

@@ -1,6 +1,6 @@
 from django.contrib.auth.models import User, Group
 from rest_framework import serializers
-from tushareapi.models import StockBasic, ReportData, OperationData, ProfitData
+from tushareapi.models import StockBasic, ReportData, OperationData, ProfitData, RealTimeBoxOffice
 
 
 class UserSerializer(serializers.HyperlinkedModelSerializer):
@@ -39,3 +39,9 @@ class ProfitDataSerializer(serializers.ModelSerializer):
         model = ProfitData
         fields = ('code', 'name', 'roe', 'net_profit_ratio', 'gross_profit_rate', \
                  'net_profits', 'eps', 'bips')
+
+class RealTimeBoxOfficeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RealTimeBoxOffice
+        fields = ('box_office', 'irank', 'movie_name', 'box_per', 'movie_day', \
+                 'sum_box_office', 'time')

@@ -16,4 +16,7 @@ urlpatterns = [
     url(r'^profitdata/(?P<year>[0-9]+)/(?P<quater>[0-9]+)/$', views.profitdata_list),
     ##营运能力明细
     url(r'^profitdata/(?P<year>[0-9]+)/(?P<quater>[0-9]+)/(?P<code>[0-9]+)/$', views.operationdata_detail),
+
+    ##电影票房
+    url(r'^realtimeboxoffice', views.realtimeboxoffice_list),
 ]
