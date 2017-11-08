@@ -1,5 +1,4 @@
 *.pyc
 .vscode
-webtushare/tushareapi/migrations/*
 db.sqlite3
 env/*
