@@ -163,3 +163,25 @@ class RealTimeBoxOffice(models.Model):
     movie_day = models.FloatField("上映天数")
     sum_box_office = models.FloatField("累计票房（万）")
     time = models.CharField("发布日期", max_length=20, null=True)
+
+class DayBoxOffice(models.Model):
+    '''
+    AvgPrice 平均票价
+    AvpPeoPle 场均人次
+    BoxOffice 单日票房（万）
+    BoxOffice_Up 环比变化 （%）
+    IRank 排名
+    MovieDay 上映天数
+    MovieName 影片名
+    SumBoxOffice 累计票房（万）
+    WomIndex 口碑指数
+    '''
+    avg_price = models.FloatField("平均票价")
+    avp_people = models.FloatField("场均人次")
+    box_office = models.FloatField("单日票房（万）")
+    box_office_up = models.FloatField("环比变化 （%）")
+    irank = models.IntegerField("排名")
+    movie_day = models.IntegerField("上映天数")
+    movie_name = models.CharField("影片名", max_length=300)
+    sum_box_office = models.FloatField("累计票房（万）")
+    wom_index = models.FloatField("口碑指数", null=True, max_length=10)

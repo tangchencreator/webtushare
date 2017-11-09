@@ -17,6 +17,9 @@ urlpatterns = [
     ##营运能力明细
     url(r'^profitdata/(?P<year>[0-9]+)/(?P<quater>[0-9]+)/(?P<code>[0-9]+)/$', views.operationdata_detail),
 
-    ##电影票房
+    #电影票房
+    ##实时票房
     url(r'^realtimeboxoffice', views.realtimeboxoffice_list),
+    ##每日票房
+    url(r'^dayboxoffice', views.dayboxoffice_list),
 ]

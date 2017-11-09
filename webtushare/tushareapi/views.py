@@ -4,11 +4,12 @@ from django.shortcuts import render
 # Create your views here.
 from django.contrib.auth.models import User, Group
 from tushareapi.models import StockBasic, ReportData, OperationData, \
-                              ProfitData, RealTimeBoxOffice
+                              ProfitData, RealTimeBoxOffice, DayBoxOffice
 from rest_framework import viewsets
 from tushareapi.serializers import UserSerializer, GroupSerializer, \
                                    StockBasicSerializer, ReportDataSerializer, \
-                                   OperationDataSerializer, ProfitDataSerializer, RealTimeBoxOfficeSerializer
+                                   OperationDataSerializer, ProfitDataSerializer, RealTimeBoxOfficeSerializer, \
+                                   DayBoxOfficeSerializer
                                    
 from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse, JsonResponse
@@ -272,27 +273,66 @@ def realtimeboxoffice_list(request):
     """
     实时票房数据
     """
-    details = RealTimeBoxOffice.objects.all()
-    if not details :
-        details = ts.realtime_boxoffice()
-        total = len(details)
-        percent = 0.0
-        profit = None
+    RealTimeBoxOffice.objects.all().delete()
+    details = ts.realtime_boxoffice()
+    total = len(details)
+    percent = 0.0
+    profit = None
         
-        for i in range(0, total):
-            percent = percent + 1
-            detail = details.ix[i]
+    for i in range(0, total):
+        percent = percent + 1
+        detail = details.ix[i]
+        try:
             RealTimeBoxOffice.objects.create(box_office=detail.BoxOffice, \
-                                            irank=detail.Irank, \
-                                            movie_name=detail.MovieName, \
-                                            box_per=detail.boxPer, \
-                                            movie_day=detail.movieDay, \
-                                            sum_box_office=detail.sumBoxOffice, \
-                                            time=detail.time)
-                    
-            processbar(percent, total)
+                                        irank=detail.Irank, \
+                                        movie_name=detail.MovieName, \
+                                        box_per=detail.boxPer, \
+                                        movie_day=detail.movieDay, \
+                                        sum_box_office=detail.sumBoxOffice, \
+                                        time=detail.time)
+        except:
+            continue    
+        processbar(percent, total)
     details = RealTimeBoxOffice.objects.all()
     serializer = RealTimeBoxOfficeSerializer(details , many=True)
+    return JsonResponse(serializer.data, safe=False)
+
+@csrf_exempt
+def dayboxoffice_list(request):
+    """
+    实时票房数据
+    """
+    DayBoxOffice.objects.all().delete()
+    details = ts.day_boxoffice()
+    total = len(details)
+    percent = 0.0
+    profit = None
+        
+    for i in range(0, total):
+        percent = percent + 1
+        detail = details.ix[i]
+        try:
+            DayBoxOffice.objects.create(avg_price=detail.AvgPrice, \
+                                        avp_people=detail.AvpPeoPle, \
+                                        box_office=detail.BoxOffice, \
+                                        box_office_up=detail.BoxOffice_Up, \
+                                        irank=detail.IRank, \
+                                        movie_day=detail.MovieDay, \
+                                        movie_name=detail.MovieName, \
+                                        sum_box_office=detail.SumBoxOffice, \
+                                        wom_index=detail.WomIndex)
+        except:
+            DayBoxOffice.objects.create(avg_price=detail.AvgPrice, \
+                                        avp_people=detail.AvpPeoPle, \
+                                        box_office=detail.BoxOffice, \
+                                        box_office_up=detail.BoxOffice_Up, \
+                                        irank=detail.IRank, \
+                                        movie_day=detail.MovieDay, \
+                                        movie_name=detail.MovieName, \
+                                        sum_box_office=detail.SumBoxOffice)
+        processbar(percent, total)
+    details = DayBoxOffice.objects.all()
+    serializer = DayBoxOfficeSerializer(details , many=True)
     return JsonResponse(serializer.data, safe=False)
 
 def processbar(percent, total):
